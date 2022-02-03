@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Personal from './Form/Personal'
 import Education from './Form/Education'
 import Experience from './Form/Experience'
@@ -46,7 +46,6 @@ function Main() {
 
   const handleExperienceChange = (e) => {
     setExperienceState(prevState => {
-      console.log(prevState)
       const newExperienceItem = prevState.map(prevItem => {
         console.log(prevItem.id === e.target.id)
         if (prevItem.id === e.target.id) {
@@ -55,14 +54,19 @@ function Main() {
         }
         return {...prevItem}
       })
-      console.log(newExperienceItem)
-      return {newExperienceItem}
+      return newExperienceItem
     })
   }  
 
   const handleEducationChange = (e) => {
     setEducationState(prevState => {
-      return [...prevState, prevState[e.target.id][e.target.name] = e.target.value]
+      const newEducationItem = prevState.map(prevItem => {
+        if (prevItem.id === e.target.id) {
+          return {...prevItem, [e.target.name]: e.target.value}
+        }
+        return {...prevItem}
+      })
+      return newEducationItem
     })
   }
 
@@ -100,17 +104,15 @@ function Main() {
   }
 
   const handleExperienceDelete = (e) => {
-    e.preventDefault()
-    let experienceStateCopy = experienceState
-    experienceStateCopy.splice(e.target.id, 1)
-    setExperienceState({experienceStateCopy})
+    setExperienceState(prevState => {
+      return prevState.filter(prevItem => prevItem.id !== e.target.id)
+    })
   }
 
   const handleEducationDelete = (e) => {
-    e.preventDefault()
-    let educationStateCopy = educationState
-    educationStateCopy.splice(e.target.id, 1)
-    setEducationState({educationStateCopy})
+    setEducationState(prevState => {
+      return prevState.filter(prevItem => prevItem.id !== e.target.id)
+    })
   }
 
   const { fName, lName, title, address, phone, email, description } = personalState
@@ -172,7 +174,6 @@ function Main() {
       {educationForms}
       <button onClick={handleEducationAdd}>Add Education</button>
 
-      {JSON.stringify(experienceState)}
       <PreviewCV 
         personalState={personalState}
         experienceArr={experienceState}
