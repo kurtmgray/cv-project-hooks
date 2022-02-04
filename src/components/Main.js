@@ -46,7 +46,7 @@ function Main() {
 
   const handleExperienceChange = (e) => {
     setExperienceState(prevState => {
-      const newExperienceItem = prevState.map(prevItem => {
+      const newExperienceArr = prevState.map(prevItem => {
         console.log(prevItem.id === e.target.id)
         if (prevItem.id === e.target.id) {
           console.log([e.target.name], e.target.value)
@@ -54,19 +54,19 @@ function Main() {
         }
         return {...prevItem}
       })
-      return newExperienceItem
+      return newExperienceArr
     })
   }  
 
   const handleEducationChange = (e) => {
     setEducationState(prevState => {
-      const newEducationItem = prevState.map(prevItem => {
+      const newEducationArr = prevState.map(prevItem => {
         if (prevItem.id === e.target.id) {
           return {...prevItem, [e.target.name]: e.target.value}
         }
         return {...prevItem}
       })
-      return newEducationItem
+      return newEducationArr
     })
   }
 
